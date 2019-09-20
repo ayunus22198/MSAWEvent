@@ -1,0 +1,3 @@
+Sample Warning:
+  - Accessing view manager configs directly off UIManager via UIManager['getConstants'] is no longer supported.
+   Use UIManager.getViewManagerConfig('getConstants') instead. (9/19/19)
