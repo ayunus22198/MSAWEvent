@@ -1,5 +1,5 @@
 import React from 'react';
-import { StyleSheet, Text, View } from 'react-native';
+import { StyleSheet, Text, View, TouchableOpacity } from 'react-native';
 import { Agenda } from 'react-native-calendars';
 
 export default class Schedule extends React.Component {
@@ -68,7 +68,7 @@ export default class Schedule extends React.Component {
 
   renderItem(item) {
     return (
-      <View style={[styles.item, {height: item.height}]}><Text>{item.name}</Text></View>
+      <TouchableOpacity><View style={[styles.item, {height: item.height}]}><Text>{item.name}</Text></View></TouchableOpacity>
     );
   }
 
