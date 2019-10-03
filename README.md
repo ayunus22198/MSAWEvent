@@ -17,3 +17,22 @@ Running msaw-mobile folder:
  9. Have an emulator running in background, Android Studio is good for this. 
  10. Type expo start in msaw-mobile folder, a tab should open in IE if successful 
  11. Click Run on Android Emulator/Device
+
+Features List: 
+- Schedule
+  - User should be able to choose which events he/she wants to go to 
+  - Should filter appropriately 
+  - Times should be easily changeable and renders on everyones phone
+  - Onclick of event should lead to a description page which has: 
+     - Picture (Mandatory) 
+     - Information on event (Mandatory) 
+     - Summary (Mandatory)
+     - Question Poll (Optional)
+     - Comments (Optional)
+     - Likes Facebook style (optional)
+     
+- Map
+  - has halal places marked on map in vicinity of MSA West area 
+  - Leads to description page of restaurant of clicked
+- About 
+  - Information on Sponsors and who helped make the event happen 
