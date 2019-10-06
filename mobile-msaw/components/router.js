@@ -1,19 +1,51 @@
 import React from 'react';
 import { createSwitchNavigator, createAppContainer } from 'react-navigation';
-import { createStackNavigator } from 'react-navigation-stack';
 import { createMaterialTopTabNavigator } from 'react-navigation-tabs';
 import Login from './Login/Login';
 import SignUp from './Login/SignUp';
 import Map from './Map/Map';
 import Posts from './Posts/Posts';
-import Schedule from './Schedule/Schedule';
+import Friday from './Schedule/Friday';
+import Saturday from './Schedule/Saturday';
+import Sunday from './Schedule/Sunday';
+
 import MaterialIcons from 'react-native-vector-icons/MaterialIcons';
 import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons';
+
+export const ScheduleNavigator = createMaterialTopTabNavigator(
+    {
+        Friday: {
+            screen: Friday
+        },
+        Saturday: {
+            screen: Saturday
+        },
+        Sunday: {
+            screen: Sunday
+        }
+    },
+    {
+        initialRouteName: 'Friday',
+        swipeEnabled: true,
+        animationEnabled: true,
+        backBehavior: 'initialRoute',
+        tabBarOptions: {
+            activeTintColor: '#59cbbd',
+            inactiveTintColor: 'black',
+            tabStyle: {
+                backgroundColor: 'white'
+            },
+            style: {
+                backgroundColor: 'white'
+            },
+        }
+    }
+)
 
 export const HomeNavigator = createMaterialTopTabNavigator(
     {
         Schedule: {
-            screen: Schedule,
+            screen: ScheduleNavigator,
             navigationOptions: {
                 tabBarIcon: ({ tintColor, focused }) => (
                     <MaterialCommunityIcons name={focused ? 'timer' : 'timer'} size={focused ? 27 : 25} color={tintColor} />
@@ -64,38 +96,11 @@ export const HomeNavigator = createMaterialTopTabNavigator(
     }
 );
 
-export const ClubPageNavigator = createStackNavigator(
-    {
-        Schedule: { screen: Schedule },
-        Posts: { screen: Posts },
-        Map: { screen: Map }
-    },
-    {
-        initialRouteName: 'Schedule',
-        headerMode: 'screen',
-        defaultNavigationOptions: {
-        headerStyle: {
-          backgroundColor: '#f4511e',
-        },
-        headerTintColor: '#fff',
-        headerTitleStyle: {
-          fontWeight: 'bold',
-        },
-    },
-    }
-)
-
-export const MSAWNavigator = createSwitchNavigator(
-    {
-        HomeNavigation: { screen: HomeNavigator }
-    }
-)
-
 export const LoginNavigator = createSwitchNavigator(
     {
         Login: { screen: Login },
         SignUp: { screen: SignUp },
-        MSAWNavigation: { screen: MSAWNavigator }
+        MSAWNavigation: { screen: HomeNavigator }
     }
 );
 

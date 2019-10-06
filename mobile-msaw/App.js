@@ -1,7 +1,8 @@
 import React from 'react';
-import { StyleSheet, Text, View } from 'react-native';
+import { SafeAreaView } from 'react-navigation';
+import { StyleSheet, Platform, StatusBar } from 'react-native';
 import App from './components/router';
-import Expo, { AppLoading } from 'expo';
+import { AppLoading } from 'expo';
 import { fontAssets } from './helpers';
 import EStyleSheet from 'react-native-extended-stylesheet';
 import Colors from './constants/Colors';
@@ -30,7 +31,9 @@ export default class MSAW extends React.Component {
     if (!this.state.fontLoaded) {
       return <AppLoading />;
     } else {
-      return <App />;
+      return (
+          <App />
+      );
     }
   }
 }
