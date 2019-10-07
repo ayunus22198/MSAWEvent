@@ -30,7 +30,7 @@ export const ScheduleNavigator = createMaterialTopTabNavigator(
         animationEnabled: true,
         backBehavior: 'initialRoute',
         tabBarOptions: {
-            activeTintColor: '#59cbbd',
+            activeTintColor: '#00AEF9',
             inactiveTintColor: 'black',
             tabStyle: {
                 backgroundColor: 'white'
@@ -38,6 +38,9 @@ export const ScheduleNavigator = createMaterialTopTabNavigator(
             style: {
                 backgroundColor: 'white'
             },
+            indicatorStyle: {
+                backgroundColor: '#00AEF9'
+            }
         }
     }
 )
@@ -52,19 +55,19 @@ export const HomeNavigator = createMaterialTopTabNavigator(
                 )
             }
         },
-        Posts: {
-            screen: Posts,
-            navigationOptions: {
-                tabBarIcon: ({ tintColor, focused }) => (
-                    <MaterialCommunityIcons name={focused ? 'home' : 'home-outline'} size={focused ? 27 : 25} color={tintColor} />
-                )
-            }
-        },
         Map: {
             screen: Map,
             navigationOptions: {
                 tabBarIcon: ({ tintColor, focused }) => (
                     <MaterialIcons name={focused ? 'map' : 'map'} size={25} color={tintColor} />
+                )
+            }
+        },
+        Posts: {
+            screen: Posts,
+            navigationOptions: {
+                tabBarIcon: ({ tintColor, focused }) => (
+                    <MaterialCommunityIcons name={focused ? 'home' : 'home-outline'} size={focused ? 27 : 25} color={tintColor} />
                 )
             }
         }
@@ -76,21 +79,24 @@ export const HomeNavigator = createMaterialTopTabNavigator(
         tabBarPosition: 'bottom',
         backBehavior: 'initialRoute',
         tabBarOptions: {
-            activeTintColor: '#fff',
+            activeTintColor: '#00AEF9',
             inactiveTintColor: 'rgba(0, 0, 0, 0.85)',
             showIcon: true,
             showLabel: false,
             labelStyle: {
                 color: 'black',
-                backgroundColor: 'white',
+                backgroundColor: '#00AEF9',
                 borderColor: 'white',
                 shadowColor: 'white',
             },
             tabStyle: {
-                backgroundColor: '#00AEF9',
+                backgroundColor: 'white',
             },
             style: {
-                backgroundColor: '#00AEF9',
+                backgroundColor: 'white',
+            },
+            indicatorStyle: {
+                backgroundColor: '#00AEF9'
             }
         }
     }

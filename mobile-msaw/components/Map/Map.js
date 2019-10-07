@@ -1,5 +1,6 @@
 import React from 'react';
 import { StyleSheet, Text, View } from 'react-native';
+
 /**
 Page where Map.js loads. ToDo -
 1. Render map on screen
@@ -9,7 +10,7 @@ Page where Map.js loads. ToDo -
 export default class Map extends React.Component {
   render() {
     return (
-      <View style={styles.container}>
+      <View >
         <Text>This is Map.js</Text>
       </View>
     )

@@ -32,8 +32,11 @@ export default class MSAW extends React.Component {
       return <AppLoading />;
     } else {
       return (
-          <App />
-      );
+        <SafeAreaView style={styles.safeArea}>
+          {Platform.OS === 'ios' && <StatusBar barStyle="default" />}
+            <App />
+        </SafeAreaView>
+      )
     }
   }
 }
@@ -45,4 +48,8 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     justifyContent: 'center',
   },
+  safeArea: {
+    flex: 1,
+    backgroundColor: '#ddd'
+  }
 });
