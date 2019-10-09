@@ -15,5 +15,6 @@
   "bugs": {
     "url": "https://github.com/ayunus22198/MSAWEvent/issues"
   },
-  "homepage": "https://github.com/ayunus22198/MSAWEvent#readme"
+  "homepage": "https://github.com/ayunus22198/MSAWEvent#readme",
+  "dependencies": {}
 }
