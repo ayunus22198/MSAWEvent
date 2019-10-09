@@ -2,15 +2,15 @@ const express = require('express');
 const mongoose = require('mongoose');
 const bodyParser = require('body-parser');
 const morgan = require('morgan');
-
-/**
+const keys = require('../config/keys');
+console.log(keys.mongoPassword);
 mongoose.Promise = global.Promise; // let's us use then catch
 mongoose.set('useCreateIndex', true);
-mongoose.connect(``, { useNewUrlParser: true });
+mongoose.connect(`mongodb+srv://admin:${keys.mongoPassword}@cluster0-vdkq2.mongodb.net/test?retryWrites=true&w=majority`, { useNewUrlParser: true });
 mongoose.connection
     .once('open', () => console.log('Mongodb running'))
     .on('error', err => console.log(err)); // to use routes
-**/
+
 const app = express();
 
 //lets us access/write JSON objects and push to database
