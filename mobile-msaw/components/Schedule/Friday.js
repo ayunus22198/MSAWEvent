@@ -1,11 +1,14 @@
 import React from 'react';
-import { StyleSheet, Text, View } from 'react-native';
+import { StyleSheet, Text, View, ScrollView } from 'react-native';
+import Block from '../Utils/Block'
 
 export default class Friday extends React.Component {
   render() {
     return (
-      <View style={styles.container}>
-        <Text>This is Friday.js</Text>
+      <View style = {styles.container} >
+      <ScrollView horizontal={false}>
+        <Block />
+      </ScrollView>
       </View>
     )
   }
@@ -17,5 +20,6 @@ const styles = StyleSheet.create({
     backgroundColor: '#fff',
     alignItems: 'center',
     justifyContent: 'center',
+    padding: 10
   },
 });
