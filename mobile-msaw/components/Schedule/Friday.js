@@ -6,9 +6,9 @@ export default class Friday extends React.Component {
   render() {
     return (
       <View style = {styles.container} >
-      <ScrollView horizontal={false}>
-        <Block />
-      </ScrollView>
+        <ScrollView horizontal={false}>
+          <Block />
+        </ScrollView>
       </View>
     )
   }
