@@ -1,23 +1,26 @@
 import React from 'react';
-import { StyleSheet, Text, View, Dimensions, Image } from 'react-native';
+import { StyleSheet, Text, TouchableOpacity, View, Dimensions, Image, Button } from 'react-native';
 import Theme from '../../constants/Theme'
-const { heigth, width } = Dimensions.get('window');
+const { height, width } = Dimensions.get('window');
+import { Ionicons } from '@expo/vector-icons';
 
-const Block = ()=>{
+const Block = () => {
   return (
     <View style = {styles.container}>
-      <View style = {{flex: 2,   padding: Theme.padding, flexDirection: 'row', justifyContent: 'space-between', borderColor: '#0f0', borderWidth: 1,}}>
-          <View>
-            <Text style = {{fontSize: 20}} > Dawah in the Community </Text>
-            <Text> Zahra Billoo </Text>
-          </View>
-            <Image
-            style={{width: 50, height: 50}}
-            source={{uri: 'https://facebook.github.io/react-native/img/tiny_logo.png'}}
-          />
+      <View style = {{ flex: 2, padding: Theme.padding , flexDirection: 'row', justifyContent: 'space-between' }}>
+        <View style = {{flex: 2 }}>
+          <Text style = {{fontFamily: 'montserratMed', letterSpacing: 0, lineHeight: 18}}>Zahra Billoo</Text>
+          <Text style = {{fontSize: 17, fontFamily: 'montserratBold'}} >Dawah in the Community</Text>
+        </View>
+        <View style={{flex: 1, justifyContent: 'center', alignItems: 'center' }}>
+        <Image
+          style={{ width: 54, height: 54, borderColor: 'blue', borderWidth: 1, borderRadius: 27 }}
+          source={{uri: 'https://facebook.github.io/react/logo-og.png'}}
+        />
+        </View>
       </View>
-      <View style = {{ flex: 1, backgroundColor: '#CDCDCD', borderColor: '#0f0', borderWidth: 1, zIndex: 2, flexDirection: 'row'}}>
-        <Text>Hello</Text>
+      <View style = {{ flex: 1, flexDirection: 'row', padding: Theme.padding}}>
+        <Text style = {{fontFamily: 'montserratMed', flex: 1}}>5:30 - 7:30</Text>
       </View>
     </View>
   )
@@ -25,15 +28,12 @@ const Block = ()=>{
 
 const styles = StyleSheet.create({
   container: {
-    height: 140,
     borderRadius: Theme.borderRadius,
-    width: width-30,
-    justifyContent: 'space-between',
-    borderColor: 'black',
+    width: width-15,
+    borderColor: '#00AEF9',
+    borderWidth: 5,
     flexDirection: 'column',
-    padding: Theme.padding,
-    margin: 10,
-    zIndex: 0
+    flex: 1,
   }
 
 })
