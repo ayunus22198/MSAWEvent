@@ -9,19 +9,15 @@ import Constants from 'expo-constants';
 import { Card } from 'react-native-paper';
 const {height, width} = Dimensions.get('window');
 
-export default class InformationCard extends React.Component {
-  render() {
+export const InformationCard = () => {
     return (
-
         <View style={styles.container}>
           <Text>Name: Abdullah Ahmed</Text>
           <Text>Topic: Gratefullness in Islam</Text>
           <Text>Time: 1 - 3 pm</Text>
           <Text>Description: Lecture on human qualities</Text>
         </View>
-
     );
-  }
 }
 
 const styles = StyleSheet.create({

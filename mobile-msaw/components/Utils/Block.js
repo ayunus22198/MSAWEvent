@@ -3,6 +3,7 @@ import { StyleSheet, Text, TouchableOpacity, View, Dimensions, Image, Button } f
 import Theme from '../../constants/Theme'
 const { height, width } = Dimensions.get('window');
 import { Ionicons } from '@expo/vector-icons';
+import { Icon } from 'react-native-elements'
 
 const Block = () => {
   return (
@@ -19,8 +20,14 @@ const Block = () => {
         />
         </View>
       </View>
-      <View style = {{ flex: 1, flexDirection: 'row', padding: Theme.padding}}>
-        <Text style = {{fontFamily: 'montserratMed', flex: 1}}>5:30 - 7:30</Text>
+      <View style = {{ flex: 1, flexDirection: 'row', padding: 10, backgroundColor: '#d3d3d3', borderBottomRightRadius: Theme.borderRadius, borderBottomLeftRadius: Theme.borderRadius }}>
+        <View style = {{ flex: .33 }}>
+          <Text style = {{fontFamily: 'montserratMed', flex: 1}}>5:30 - 7:30</Text>
+        </View>
+        <View style = {{ flex: .66,flexDirection: 'row',}}>
+          <Icon name='directions' />
+          <Text style = {{fontFamily: 'montserratMed', flex: 1}}>1 Shields Ave, Davis, CA 95616</Text>
+        </View>
       </View>
     </View>
   )
@@ -31,7 +38,7 @@ const styles = StyleSheet.create({
     borderRadius: Theme.borderRadius,
     width: width-15,
     borderColor: '#00AEF9',
-    borderWidth: 5,
+    borderWidth: 1,
     flexDirection: 'column',
     flex: 1,
   }
