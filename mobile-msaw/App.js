@@ -6,7 +6,6 @@ import { AppLoading } from 'expo';
 import { fontAssets } from './helpers';
 import EStyleSheet from 'react-native-extended-stylesheet';
 import Colors from './constants/Colors';
-
 EStyleSheet.build(Colors);
 
 export default class MSAW extends React.Component {
