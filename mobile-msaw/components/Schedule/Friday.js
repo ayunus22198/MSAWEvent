@@ -7,7 +7,8 @@ export default class Friday extends React.Component {
     return (
       <View style = {styles.container} >
         <ScrollView horizontal={false}>
-          <Block />
+          <Block selectable = {true}/>
+          <Block selectable = {false}/>
         </ScrollView>
       </View>
     )
