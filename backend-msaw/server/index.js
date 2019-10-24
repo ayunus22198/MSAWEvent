@@ -4,6 +4,7 @@ const bodyParser = require('body-parser');
 const morgan = require('morgan');
 const keys = require('../config/keys');
 const reviewRoutes = require('./models/Reviews');
+const eventRoutes = require('./models/Events');
 mongoose.Promise = global.Promise; // let's us use then catch
 mongoose.set('useCreateIndex', true);
 mongoose.connect(`mongodb+srv://admin:${keys.mongoPassword}@cluster0-vdkq2.mongodb.net/test?retryWrites=true&w=majority`, { useNewUrlParser: true });
@@ -23,7 +24,7 @@ app.get('/', (req, res) =>{
  });
 
  // pass in an array of routes
- app.use('/api', reviewRoutes);
+ app.use('/api', [reviewRoutes, eventRoutes]);
 
 const PORT = process.env.PORT || 3000;
 
