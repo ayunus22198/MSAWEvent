@@ -5,7 +5,13 @@ const { height, width } = Dimensions.get('window');
 import { Ionicons } from '@expo/vector-icons';
 import { Icon } from 'react-native-elements';
 
+const returnTimes = (timestamp) => {
+  let str = new Date(timestamp).getHours().toString();
+  return str;
+}
+
 const Block = (props) => {
+  console.log(props.e);
   if(props.selectable) {
     return (
       <View style = {[ styles.box ]}>
@@ -34,11 +40,11 @@ const Block = (props) => {
        <View style = {{ flex: 1, flexDirection: 'row', backgroundColor: '#d3d3d3', borderBottomRightRadius: Theme.borderRadius, borderBottomLeftRadius: Theme.borderRadius }}>
          <View style = {{ flex: .33, flexDirection: 'row',justifyContent: 'center', alignItems: 'center', padding: 5 }}>
            <Icon name='directions' />
-           <Text style = {{fontFamily: 'montserratMed'}}>5:30 - 7:30</Text>
+           <Text style = {{fontFamily: 'montserratMed'}}>{returnTimes(props.e.dateBegin)}</Text>
          </View>
          <View style = {{ flex: .33,flexDirection: 'row', justifyContent: 'center', alignItems: 'center', padding: 5 }}>
            <Icon name='directions' />
-           <Text style = {{fontFamily: 'montserratMed'}}>1 Shields Ave, Davis, CA 95616</Text>
+           <Text style = {{fontFamily: 'montserratMed'}}>{props.e.destination}</Text>
          </View>
          <View style = {{ flex: .33,flexDirection: 'row', justifyContent: 'center', alignItems: 'center', padding: 5 }}>
          <TouchableOpacity onPress = {props.blockSelect} >

@@ -11,14 +11,14 @@ exports.getEvents = (req, res) => {
 }
 
 exports.addEvent = async (req, res) => {
-  const { title, destination, speaker, dateBegin, dateEnd } = req.body;
+  const { title, destination, speaker } = req.body;
 
     const newEvent = new Event({
       title: title,
       destination: destination,
       speaker: speaker,
-      dateBegin: dateBegin,
-      dateEnd: dateEnd
+      dateBegin: new Date(2019, 11, 5, 10, 30),
+      dateEnd: new Date(2019, 11, 5, 11, 30),
     });
     newEvent.save().then((newEvent) => {
       if(newEvent) {

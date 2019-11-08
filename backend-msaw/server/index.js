@@ -7,7 +7,7 @@ const reviewRoutes = require('./models/Reviews');
 const eventRoutes = require('./models/Events');
 mongoose.Promise = global.Promise; // let's us use then catch
 mongoose.set('useCreateIndex', true);
-mongoose.connect(`mongodb+srv://admin:${keys.mongoPassword}@cluster0-vdkq2.mongodb.net/MSAW?retryWrites=true&w=majority`, { useNewUrlParser: true });
+mongoose.connect(`mongodb+srv://admin:${keys.mongoPassword}@cluster0-vdkq2.mongodb.net/test?retryWrites=true&w=majority`, { useNewUrlParser: true });
 mongoose.connection
     .once('open', () => console.log('Mongodb running'))
     .on('error', err => console.log(err)); // to use routes
