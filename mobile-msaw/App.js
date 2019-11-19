@@ -1,54 +1,86 @@
-import React from 'react';
-import { SafeAreaView } from 'react-navigation';
-import { StyleSheet, Platform, StatusBar } from 'react-native';
-import App from './components/router';
-import { AppLoading } from 'expo';
-import { fontAssets } from './helpers';
-import EStyleSheet from 'react-native-extended-stylesheet';
-import Colors from './constants/Colors';
-EStyleSheet.build(Colors);
+import React from "react"
+import { StyleSheet, Text, View, Image, Button } from "react-native"
+import Expo from "expo"
 
-export default class MSAW extends React.Component {
+export default class App extends React.Component {
   constructor(props) {
-    super(props);
+    super(props)
     this.state = {
-      fontLoaded: false,
-      ready: false
+      signedIn: false,
+      name: "",
+      photoUrl: ""
     }
   }
+  signIn = async () => {
+    try {
+      const result = await Expo.Google.logInAsync({
+        androidClientId:
+          "833456763323-ig9ndr0tbvb62jv4ddn6j8pos3a49m35.apps.googleusercontent.com",
+        //iosClientId: YOUR_CLIENT_ID_HERE,  <-- if you use iOS
+        scopes: ["profile", "email"]
+      })
 
-  componentDidMount() {
-    this._loadAssetsAsync();
+      if (result.type === "success") {
+        this.setState({
+          signedIn: true,
+          name: result.user.name,
+          photoUrl: result.user.photoUrl
+        })
+      } else {
+        console.log("cancelled")
+      }
+    } catch (e) {
+      console.log("error", e)
+    }
   }
-
-  async _loadAssetsAsync() {
-     await Promise.all(fontAssets);
-     this.setState({ fontLoaded: true });
-  }
-
   render() {
-    if (!this.state.fontLoaded) {
-      return <AppLoading />;
-    } else {
-      return (
-        <SafeAreaView style={styles.safeArea}>
-          {Platform.OS === 'ios' && <StatusBar barStyle="default" />}
-            <App />
-        </SafeAreaView>
-      )
-    }
+    return (
+      <View style={styles.container}>
+        {this.state.signedIn ? (
+          <LoggedInPage name={this.state.name} photoUrl={this.state.photoUrl} />
+        ) : (
+          <LoginPage signIn={this.signIn} />
+        )}
+      </View>
+    )
   }
+}
+
+const LoginPage = props => {
+  return (
+    <View>
+      <Text style={styles.header}>Sign In With Google</Text>
+      <Button title="Sign in with Google" onPress={() => props.signIn()} />
+    </View>
+  )
+}
+
+const LoggedInPage = props => {
+  return (
+    <View style={styles.container}>
+      <Text style={styles.header}>Welcome:{props.name}</Text>
+      <Image style={styles.image} source={{ uri: props.photoUrl }} />
+    </View>
+  )
 }
 
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: '#fff',
-    alignItems: 'center',
-    justifyContent: 'center',
+    backgroundColor: "#fff",
+    alignItems: "center",
+    justifyContent: "center"
   },
-  safeArea: {
-    flex: 1,
-    backgroundColor: '#ddd'
+  header: {
+    fontSize: 25
+  },
+  image: {
+    marginTop: 15,
+    width: 150,
+    height: 150,
+    borderColor: "rgba(0,0,0,0.2)",
+    borderWidth: 3,
+    borderRadius: 150
   }
-});
+})
+s
