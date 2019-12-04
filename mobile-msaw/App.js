@@ -1,6 +1,10 @@
 import React from "react"
-import { StyleSheet, Text, View, Image, Button } from "react-native"
-import Expo from "expo"
+import { StyleSheet, Text, View, Image, Button, SafeAreaView, Platform, StatusBar } from "react-native"
+import * as Expo from "expo"
+import Login from './components/Login/Login';
+import AppNav from './components/router';
+import * as Google from 'expo-google-app-auth';
+import * as Ids from './constants/oAuth';
 
 export default class App extends React.Component {
   constructor(props) {
@@ -13,14 +17,14 @@ export default class App extends React.Component {
   }
   signIn = async () => {
     try {
-      const result = await Expo.Google.logInAsync({
-        androidClientId:
-          "833456763323-ig9ndr0tbvb62jv4ddn6j8pos3a49m35.apps.googleusercontent.com",
-        //iosClientId: YOUR_CLIENT_ID_HERE,  <-- if you use iOS
+      const result = await Google.logInAsync({
+        androidClientId: Ids.default.androidClientId,
+        iosClientId: Ids.default.iosClientId,
         scopes: ["profile", "email"]
       })
 
       if (result.type === "success") {
+        console.log('hi');
         this.setState({
           signedIn: true,
           name: result.user.name,
@@ -35,33 +39,16 @@ export default class App extends React.Component {
   }
   render() {
     return (
-      <View style={styles.container}>
+      <SafeAreaView style={{flex:1}}>
+        {Platform.OS === 'ios' && <StatusBar barStyle="default" />}
         {this.state.signedIn ? (
-          <LoggedInPage name={this.state.name} photoUrl={this.state.photoUrl} />
+          <AppNav />
         ) : (
-          <LoginPage signIn={this.signIn} />
+          <Login signIn={this.signIn} />
         )}
-      </View>
+      </SafeAreaView>
     )
   }
-}
-
-const LoginPage = props => {
-  return (
-    <View>
-      <Text style={styles.header}>Sign In With Google</Text>
-      <Button title="Sign in with Google" onPress={() => props.signIn()} />
-    </View>
-  )
-}
-
-const LoggedInPage = props => {
-  return (
-    <View style={styles.container}>
-      <Text style={styles.header}>Welcome:{props.name}</Text>
-      <Image style={styles.image} source={{ uri: props.photoUrl }} />
-    </View>
-  )
 }
 
 const styles = StyleSheet.create({
@@ -83,4 +70,3 @@ const styles = StyleSheet.create({
     borderRadius: 150
   }
 })
-s

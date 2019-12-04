@@ -1,11 +1,11 @@
 import React from 'react';
-import { StyleSheet, View, Text, Button } from 'react-native';
+import { StyleSheet, Text, View,Button } from 'react-native';
 
 export default class Login extends React.Component {
   render() {
     return (
       <View style = { styles.loginButtonSection }>
-        <Button onPress={() => this.props.navigation.navigate('MSAWNavigation')}
+        <Button onPress={() => this.props.signIn()}
                style={styles.loginButton}
                title="Login"
        />

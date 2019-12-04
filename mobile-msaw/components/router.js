@@ -110,5 +110,5 @@ export const LoginNavigator = createSwitchNavigator(
     }
 );
 
-const App = createAppContainer(LoginNavigator);
-export default App;
+const AppNav = createAppContainer(LoginNavigator);
+export default AppNav;

@@ -50,6 +50,7 @@ export default class Friday extends React.Component {
   async componentWillMount() {
     this._retrieveData();
     const response = await axios.get('http://bcc28b41.ngrok.io/api/events');
+
     console.log(response.data.events);
     for(let i = 0; i < response.data.events.length; i++) {
       let date = new Date(response.data.events[i].dateBegin);
