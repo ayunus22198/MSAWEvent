@@ -2,7 +2,6 @@ import React from 'react';
 import { createSwitchNavigator, createAppContainer } from 'react-navigation';
 import { createMaterialTopTabNavigator } from 'react-navigation-tabs';
 import Login from './Login/Login';
-import SignUp from './Login/SignUp';
 import Map from './Map/Map';
 import Posts from './Posts/Posts';
 import Friday from './Schedule/Friday';
@@ -105,7 +104,6 @@ export const HomeNavigator = createMaterialTopTabNavigator(
 export const LoginNavigator = createSwitchNavigator(
     {
         Login: { screen: Login },
-        SignUp: { screen: SignUp },
         MSAWNavigation: { screen: HomeNavigator }
     }
 );

@@ -1,10 +1,11 @@
 import React from 'react';
-import { StyleSheet, Text, View, ScrollView, Image } from 'react-native';
+import { StyleSheet, View, ScrollView } from 'react-native';
 import Block from '../Utils/Block'
 import axios from 'axios';
 import { Notifications } from 'expo';
+import { connect } from 'react-redux'
 
-export default class Saturday extends React.Component {
+class Saturday extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
@@ -88,6 +89,27 @@ export default class Saturday extends React.Component {
     )
   }
 }
+
+const mapStateToProps = (state) => {
+  if (!state.schedule.saturday)
+    return { loading: true };
+
+  // return whatever state you need from friday -- can deconstruct object here
+  // and return events, any user-specific data, etc.
+
+  return { saturday: state.schedule.saturday, loading: false }
+}
+
+const mapDispatchToProps = (dispatch) => {
+  // if the schedule is interactive as in the user wants to select their schedule, create 
+  // a dispatch function to update user-selected event with whatever metadata
+
+  return {
+    
+  }
+}
+
+export default connect(mapStateToProps, mapDispatchToProps)(Saturday);
 
 const styles = StyleSheet.create({
   container: {
