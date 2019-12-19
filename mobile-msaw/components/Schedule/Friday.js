@@ -1,9 +1,11 @@
 import React from 'react';
-import { StyleSheet, View, ScrollView } from 'react-native';
+import { StyleSheet, View, ScrollView, RefreshControl, Text } from 'react-native';
 import Block from '../Utils/Block'
 import axios from 'axios';
-import { Notifications } from 'expo';
-import { connect } from 'react-redux'
+import { Notifications, AppLoading } from 'expo';
+import { connect } from 'react-redux';
+import { fetchEvents } from '../../actions/ScheduleActions';
+var moment = require('moment-timezone');
 
 class Friday extends React.Component {
   constructor(props) {
@@ -26,64 +28,37 @@ class Friday extends React.Component {
     }
   }
 
-  _retrieveData = async () => {
-    try {
-      const switchStatus = await AsyncStorage.getItem('switchStatus');
-      const otherSwitchStatus = await AsyncStorage.getItem('otherSwitchStatus');
-
-      // set the state
-      //main switcher state
-      if (switchStatus !== null) {
-        this.setState({ switchStatus: JSON.parse(switchStatus) });
-      } else if (switchStatus == null) {
-        this.setState({ switchStatus: true });
-      }
-
-      // other switchers state
-      if (otherSwitchStatus !== null) {
-        this.setState({ otherSwitchStatus: JSON.parse(otherSwitchStatus) });
-      }
-    } catch (error) {
-      console.log(error.message);
-    }
-  };
-
-  async componentWillMount() {
-    this._retrieveData();
-    const response = await axios.get('http://bcc28b41.ngrok.io/api/events');
-
-    console.log(response.data.events);
-    for(let i = 0; i < response.data.events.length; i++) {
-      let date = new Date(response.data.events[i].dateBegin);
-      let year = date.getFullYear();
-      let month = date.getMonth();
-      let datest = date.getDate();
-      let hour = date.getHours();
-      let minutes = date.getMinutes();
-      let not0 = new Date(year, month, datest, hour, minutes);
-      not0.setMinutes(not0.getMinutes() - this.state.offset);
-      not0 = Date.parse(not0);
-      const schedulingOptions0 = { time: not0 };
-      let localnotification = this.state.localnotification;
-      localnotification.body = response.data.events[i].speaker + " is speaking at " + response.data.events[i].destination;
-      this.setState({localnotification});
-      console.log(localnotification);
-      console.log(not0);
-      await Notifications.scheduleLocalNotificationAsync(
-          localnotification,
-          schedulingOptions0
-      );
-    }
-    this.setState({events: response.data.events});
+  componentWillReceiveProps() {
+    
   }
 
+
+
+  _onRefresh = () => {
+    console.log('entered');
+    this.setState({loading: true});
+    this.props.fetchEvents();
+    this.setState({loading: false});
+  }
+
+  renderBlocks() {
+    if(this.props.events) {
+        return this.props.events.map((e, index) => (
+          <Block selectable = {e.selectable} key = {index}  navigateBack = {false} e = {e}/>
+        ))
+      }
+    }
+
+
   render() {
+    let reload = this.props.navigation.getParam('reload');
+    let events = this.props.events;
+    console.log('events ', events);
     return (
       <View style = {styles.container} >
-        <ScrollView horizontal={false}>
-        {this.state.events.map((e, index) => (
-          <Block selectable = {false} key = {index} e = {e}/>
-        ))}
+        <Text>Refresh by scrolling down!</Text>
+        <ScrollView horizontal={false} refreshControl={ <RefreshControl refreshing={this.state.loading} onRefresh={this._onRefresh} /> }>
+          {this.renderBlocks()}
         </ScrollView>
       </View>
     )
@@ -97,19 +72,19 @@ const mapStateToProps = (state) => {
   // return whatever state you need from friday -- can deconstruct object here
   // and return events, any user-specific data, etc.
 
-  return { friday: state.schedule.friday, loading: false }
+  return { events: state.schedule.friday, loading: false }
 }
 
 const mapDispatchToProps = (dispatch) => {
-  // if the schedule is interactive as in the user wants to select their schedule, create 
+  // if the schedule is interactive as in the user wants to select their schedule, create
   // a dispatch function to update user-selected event with whatever metadata
 
   return {
-    
+    fetchEvents: fetchEvents
   }
 }
 
-export default connect(mapStateToProps, mapDispatchToProps)(Friday);
+export default connect(mapStateToProps, { fetchEvents })(Friday);
 
 const styles = StyleSheet.create({
   container: {

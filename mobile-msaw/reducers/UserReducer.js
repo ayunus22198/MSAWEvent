@@ -1,4 +1,4 @@
-import * as Actions from './ActionTypes';
+import * as Actions from '../actions/types';
 
 let userState = { user: null };
 

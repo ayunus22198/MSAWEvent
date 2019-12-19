@@ -8,21 +8,27 @@ export default class Sponsors extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      items: []
+      items: [{
+        id: 1,
+        src: require('../../MSAimages/penny-appeal.jpg')
+      },{
+        id: 2,
+        src: require('../../MSAimages/CAIR.jpg')
+      }, {
+        id: 3,
+        src: require('../../MSAimages/IslamicRelief.png')
+      }, {
+        id: 4,
+        src: require('../../MSAimages/MPower.png')
+      }, {
+        id: 5,
+        src: require('../../MSAimages/tarbiyya.png')
+      }]
     };
-  }
-
-  componentDidMount() {
-    // Build an array of 60 photos
-    let items = Array.apply(null, Array(10)).map((v, i) => {
-      return { id: i, src: 'http://placehold.it/200x200?text='+(i+1) }
-    });
-    this.setState({ items });
   }
 
   render() {
     return (
-      <View style={styles.container}>
           <PhotoGrid
             data = { this.state.items }
             itemsPerRow = { 2 }
@@ -31,30 +37,27 @@ export default class Sponsors extends React.Component {
             renderHeader = { this.renderHeader }
             renderItem = { this.renderItem }
           />
-      </View>
     );
   }
 
   renderHeader() {
     return(
-      <Text style = {{fontFamily: 'montserratMed'}} >Sponsors</Text>
+      <Text style = {{fontFamily: 'montserratMed', alignItems: 'center', justifyContent: 'center', textAlign: 'center', fontSize: 30}} >Sponsors</Text>
     );
   }
 
-  renderItem(item, itemSize, itemPaddingHorizontal) {
+  renderItem = (item, itemSize, itemPaddingHorizontal) => {
     return(
       <TouchableOpacity
-        key = { item.id }
-        style = {{ width: itemSize - 15, height: itemSize, paddingHorizontal: itemPaddingHorizontal }}
-        onPress = { () => {
-          // Do Something
-        }}>
-        <Image
-          resizeMode = "cover"
-          style = {{ flex: 1 }}
-          source = {{ uri: item.src }}
-        />
-      </TouchableOpacity>
+       key = { item.id }
+       style = {{ width: width/2, height: width/2, paddingHorizontal: itemPaddingHorizontal }}
+       onPress = { () => this.props.navigation.navigate('SponsorInformation', {_id: item.id}) }>
+       <Image
+         resizeMode = "cover"
+         style = {{ flex: 1 }}
+         source = { item.src }
+       />
+     </TouchableOpacity>
     )
   }
 

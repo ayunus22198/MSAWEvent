@@ -3,13 +3,24 @@ import { createSwitchNavigator, createAppContainer } from 'react-navigation';
 import { createMaterialTopTabNavigator } from 'react-navigation-tabs';
 import Login from './Login/Login';
 import Map from './Map/Map';
-import Posts from './Posts/Posts';
+import Sponsors from './Sponsors/Sponsors';
+import SponsorInformation from './Sponsors/SponsorInformation';
 import Friday from './Schedule/Friday';
 import Saturday from './Schedule/Saturday';
 import Sunday from './Schedule/Sunday';
-
+import SchedulePicker from './Schedule/SchedulePicker';
+import { createStackNavigator } from 'react-navigation-stack';
 import MaterialIcons from 'react-native-vector-icons/MaterialIcons';
 import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons';
+
+
+export const SponsorNavigator = createStackNavigator(
+    {
+        Sponsors: Sponsors ,
+        SponsorInformation: SponsorInformation
+    }
+)
+
 
 export const ScheduleNavigator = createMaterialTopTabNavigator(
     {
@@ -44,10 +55,17 @@ export const ScheduleNavigator = createMaterialTopTabNavigator(
     }
 )
 
+export const ScheduleSelectorNavigator = createStackNavigator(
+    {
+        ScheduleNavigator: ScheduleNavigator ,
+        SchedulePicker: SchedulePicker
+    }
+)
+
 export const HomeNavigator = createMaterialTopTabNavigator(
     {
         Schedule: {
-            screen: ScheduleNavigator,
+            screen: ScheduleSelectorNavigator,
             navigationOptions: {
                 tabBarIcon: ({ tintColor, focused }) => (
                     <MaterialCommunityIcons name={focused ? 'timer' : 'timer'} size={focused ? 27 : 25} color={tintColor} />
@@ -62,8 +80,8 @@ export const HomeNavigator = createMaterialTopTabNavigator(
                 )
             }
         },
-        Posts: {
-            screen: Posts,
+        Sponsors: {
+            screen: SponsorNavigator,
             navigationOptions: {
                 tabBarIcon: ({ tintColor, focused }) => (
                     <MaterialCommunityIcons name={focused ? 'home' : 'home-outline'} size={focused ? 27 : 25} color={tintColor} />
@@ -107,6 +125,7 @@ export const LoginNavigator = createSwitchNavigator(
         MSAWNavigation: { screen: HomeNavigator }
     }
 );
+
 
 const AppNav = createAppContainer(LoginNavigator);
 export default AppNav;

@@ -1,26 +1,41 @@
 import React from 'react';
-import { StyleSheet, View,Button } from 'react-native';
+import { StyleSheet, View,Button, Text, AsyncStorage } from 'react-native';
 import * as Google from 'expo-google-app-auth';
 import { connect } from 'react-redux'
-
+import axios from 'axios';
 import * as Ids from '../../constants/oAuth';
-import { USER_LOGIN, SCHEDULE_SET } from '../../reducers/ActionTypes';
+import { USER_LOGIN, SCHEDULE_SET, SCHEDULE_RETRIEVE } from '../../actions/types';
+import { fetchEvents, setSchedule } from '../../actions/ScheduleActions';
+import { userLogin } from '../../actions/UserActions';
+import { Notifications } from 'expo';
 
 class Login extends React.Component {
+
+  clearAsyncStorage = async() => {
+    AsyncStorage.clear();
+  }
+
   signIn = async () => {
     try {
       const result = await Google.logInAsync({
         androidClientId: Ids.default.androidClientId,
         iosClientId: Ids.default.iosClientId,
-        scopes: ["profile", "email"]
+        scopes: ["email"]
       })
 
       if (result.type === "success") {
-        const { name, photoUrl, email, id } = result.user;
+        let token = await Notifications.getExpoPushTokenAsync();
+        console.log(token);
+        const { name, email, id } = result.user;
+        console.log(email);
         // do get request for schedule and set redux state
-        this.props.setSchedule({ friday: null, saturday: null, sunday: null })
-
-        this.props.userLogin({ name, photoUrl, email, id })
+        this.props.userLogin({email, token})
+        this.props.fetchEvents();
+        let friday = this.props.friday;
+        let saturday = this.props.saturday;
+        let sunday = this.props.sunday;
+        this.props.setSchedule({ friday, saturday, sunday })
+        console.log(email, token);
         this.props.navigation.navigate('MSAWNavigation');
       } else {
         console.log("cancelled")
@@ -37,25 +52,23 @@ class Login extends React.Component {
                style={styles.loginButton}
                title="Login"
        />
+       <Button onPress={this.clearAsyncStorage} title = "Clear Async Storage"></Button>
       </View>
     )
   }
 }
 
-const mapDispatchToProps = (dispatch) => {
+const mapStateToProps = state => {
+  console.log('sss', state);
   return {
-    userLogin: (user) => dispatch({
-      type: USER_LOGIN,
-      payload: { user }
-    }),
-    setSchedule: (friday, saturday, sunday) => dispatch({
-      type: SCHEDULE_SET,
-      payload: { friday, saturday, sunday }
-    })
+    friday: state.schedule.friday,
+    saturday: state.schedule.saturday,
+    sunday: state.schedule.sunday,
+    user: state.user
   }
-}
+};
 
-export default connect(null, mapDispatchToProps)(Login);
+export default connect(mapStateToProps, { fetchEvents, setSchedule, userLogin })(Login);
 
 const styles = StyleSheet.create({
    loginTextSection: {
