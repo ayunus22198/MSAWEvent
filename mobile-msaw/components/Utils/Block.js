@@ -27,6 +27,7 @@ const Block = (props) => {
       </View>
     )
   } else if(props.selectable && props.navigateBack) {
+    console.log('inside block ', props.e);
     return (
       <View style = {styles.container}>
         <View style = {{ flex: 2, padding: Theme.padding , flexDirection: 'row', justifyContent: 'space-between' }}>
@@ -51,8 +52,8 @@ const Block = (props) => {
             <Text style = {{fontFamily: 'montserratMed'}}>{props.e.destination}</Text>
           </View>
           <View style = {{ flex: .33,flexDirection: 'row', justifyContent: 'center', alignItems: 'center', padding: 5 }}>
-          <TouchableOpacity onPress = {props.blockSelect} >
-           <Text style = {{fontFamily: 'montserratMed'}}>Select</Text>
+          <TouchableOpacity onPress = {() => { props.navigation.navigate('SchedulePicker', { screenId: 0, idOfClickedBlock: props.e._id, possibleEvents: props.allEvents }) }} >
+           <Text style = {{fontFamily: 'montserratMed', textDecorationLine: 'underline' }}>Select</Text>
           </TouchableOpacity>
         </View>
         </View>

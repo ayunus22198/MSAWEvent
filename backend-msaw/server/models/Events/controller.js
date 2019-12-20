@@ -25,7 +25,7 @@ exports.addSelectableEvent = async (req, res) => {
   				console.log(error);
   			} else {
           if(idUpdate == -1) {
-            return res.status(404).json({'err':'err'});
+            return res.status(200).json({'err':'err'});
           } else {
             Event.findOneAndUpdate(
           		{ _id: idUpdate },

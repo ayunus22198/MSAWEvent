@@ -3,7 +3,7 @@ import { StyleSheet, View,Button, Text, AsyncStorage } from 'react-native';
 import * as Google from 'expo-google-app-auth';
 import { connect } from 'react-redux'
 import axios from 'axios';
-import * as Ids from '../../constants/oAuth';
+import * as Ids from '../../constants/authentication';
 import { USER_LOGIN, SCHEDULE_SET, SCHEDULE_RETRIEVE } from '../../actions/types';
 import { fetchEvents, setSchedule } from '../../actions/ScheduleActions';
 import { userLogin } from '../../actions/UserActions';
@@ -16,6 +16,7 @@ class Login extends React.Component {
   }
 
   signIn = async () => {
+    console.log(Ids);
     try {
       const result = await Google.logInAsync({
         androidClientId: Ids.default.androidClientId,

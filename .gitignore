@@ -20,4 +20,4 @@ bin-release/
 backend-msaw/config/
 backend-msaw/node_modules/
 mobile-msaw/node_modules/
-mobile-msaw/constants/
+mobile-msaw/constants/authentication.js

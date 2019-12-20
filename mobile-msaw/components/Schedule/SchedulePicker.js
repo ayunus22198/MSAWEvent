@@ -1,5 +1,5 @@
 import React from 'react';
-import { StyleSheet, Text, View, ScrollView, Button, AsyncStorage } from 'react-native';
+import { StyleSheet, Text, View, ScrollView, Button, AsyncStorage, Alert } from 'react-native';
 import Block from '../Utils/Block'
 import { connect } from 'react-redux';
 import { updateSelectableSchedule } from '../../actions/ScheduleActions';
@@ -28,7 +28,6 @@ class SchedulePicker extends React.Component {
   }
 
   blockSelect = (index) => {
-    console.log('inside');
     let events = this.state.possibleEvents; //copy of state events array
     let clickedEvent = {};
     for(let i = 0; i < events.length; i++) {  //marks event object at index true, everything else false
@@ -48,8 +47,19 @@ class SchedulePicker extends React.Component {
     let prevID = -1;
     prevID = await AsyncStorage.getItem('previousID');
     if(prevID == null) {
-      AsyncStorage.setItem('previousID', this.state.clickedEvent._id );
       prevID = -1
+    }
+    AsyncStorage.setItem('previousID', this.state.clickedEvent._id );
+    if(prevID == this.state.clickedEvent._id) {
+      Alert.alert(
+        'Already in Event!',
+        'Click another event',
+        [
+          { text: 'OK', onPress: () => console.log('OK Pressed') },
+        ],
+        { cancelable: true }
+      );
+      return;
     }
     console.log('prev ', prevID);
     console.log('phone expo ', this.props.exponentPhoneID);
