@@ -2,7 +2,7 @@ import { SCHEDULE_RETRIEVE, SCHEDULE_SET, UPDATE_SCHEDULE } from './types';
 import axios from 'axios';
 
 export const fetchEvents = () => dispatch => {
-    axios.get('https://7ebd18d2.ngrok.io/api/events').then((response) => {
+    axios.get('https://backend-msaw.herokuapp.com/api/events').then((response) => {
       dispatch({
         type: SCHEDULE_RETRIEVE,
         payload: {
@@ -21,7 +21,7 @@ export const fetchEvents = () => dispatch => {
 };
 
 export const updateSelectableSchedule = (eventSelected, token, idOfClickedBlock) => dispatch => {
-  axios.post('https://7ebd18d2.ngrok.io/api/selectableEvent', { token, eventSelected, idOfClickedBlock }).then((user) => {
+  axios.post('https://backend-msaw.herokuapp.com/api/selectableEvent', { token, eventSelected, idOfClickedBlock }).then((user) => {
       dispatch({
         type: UPDATE_SCHEDULE,
         payload: { token, eventSelected, idOfClickedBlock }
