@@ -49,8 +49,8 @@ const Block = (props) => {
       <View style = {[ styles.box ]}>
         <View style = {{ flex: 1, alignItems: 'center', justifyContent: 'center', textAlign: 'center', textAlignVertical: "center" }}>
           <TouchableOpacity onPress = {() => { props.navigation.navigate('SchedulePicker', { screenId: 0, idOfClickedBlock: props.e._id, possibleEvents: props.e.events }) }}>
-            <Text style = {{alignItems: 'center', justifyContent: 'center', textAlignVertical: "center", fontFamily: 'montserratMed', textAlign: 'center'}}>
-              Click me!
+            <Text style = {{alignItems: 'center', justifyContent: 'center', textAlignVertical: "center", textDecorationLine: 'underline', fontFamily: 'montserratMed', textAlign: 'center'}}>
+              Choose from a selectable list of events. Click this text to see.
             </Text>
           </TouchableOpacity>
         </View>
@@ -109,7 +109,7 @@ const Block = (props) => {
             <Text style = {{fontFamily: 'montserratMed', textDecorationLine: 'underline'}}>{props.e.destination}</Text>
           </View>
           <View style = {{ flex: .33,flexDirection: 'row', justifyContent: 'center', alignItems: 'center', padding: 5 }}>
-          
+
         </View>
         </View>
       </View>

@@ -51,8 +51,8 @@ class Login extends React.Component {
           <Image style = {styles.logo} source = {require('../../MSAimages/logo_clear.png')} />
           <Text style = {styles.title}>MSA West Annual Conference 2020</Text>
           <View style = {{marginTop: 10}} >
-            <Text style = {styles.caption}>Turn to your lord</Text>
-            <Text>Becoming God Conscious in an Unconscious Society</Text>
+            <Text style = {styles.caption}>Meeting of the Two Seas</Text>
+            <Text style = {styles.captionSub}>Illumination Through Service</Text>
           </View>
         </View>
         <View style = {styles.formContainer}>
@@ -101,10 +101,17 @@ const styles = StyleSheet.create({
      fontFamily: 'montserratBold'
    },
    caption: {
-     color: '#fff',
+     color: 'black',
      textAlign: 'center',
      opacity: 0.9,
      fontSize: 20,
+     fontFamily: 'montserratBold'
+   },
+   captionSub: {
+     color: 'black',
+     textAlign: 'center',
+     opacity: 0.9,
+     fontSize: 15,
      fontFamily: 'montserratBold'
    },
    formContainer: {

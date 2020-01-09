@@ -25,7 +25,7 @@ app.use(mongoSanitize());
 app.use(morgan('dev')); //debugging for HTTP requests
 
 app.get('/', (req, res) =>{
-    res.send('Hello World');
+    res.send('Prvacy polict says these are used: android.permission.CAMERA,android.permission.RECORD_AUDIO,android.permission.READ_PHONE_STATE,android.permission.READ_CONTACTS.Camera is used solely for development, to run the app on a working phone. This app does not record audio, does need phones properties to send sms messages. App does not read contacts');
  });
 
  // pass in an array of routes

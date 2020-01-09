@@ -77,7 +77,6 @@ class SchedulePicker extends React.Component {
         <ScrollView>
           {this.renderEvents()}
         </ScrollView>
-        <Button title = "Submit" onPress = {() => this.submitSelectedEvent()} />
       </View>
     )
   }
