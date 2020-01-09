@@ -2,7 +2,6 @@ const express = require('express');
 const mongoose = require('mongoose');
 const bodyParser = require('body-parser');
 const morgan = require('morgan');
-const keys = require('../config/keys');
 const reviewRoutes = require('./models/Reviews');
 const eventRoutes = require('./models/Events');
 const userRoutes = require('./models/Users');
