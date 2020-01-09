@@ -51,7 +51,7 @@ export default class Sponsors extends React.Component {
       <TouchableOpacity
        key = { item.id }
        style = {{ width: width/2, height: width/2, paddingHorizontal: itemPaddingHorizontal }}
-       onPress = { () => this.props.navigation.navigate('SponsorInformation', {_id: item.id}) }>
+       onPress = { () => this.props.navigation.navigate('SponsorInformation', { _id: item.id }) }>
        <Image
          resizeMode = "cover"
          style = {{ flex: 1 }}

@@ -2,23 +2,29 @@ import { SCHEDULE_RETRIEVE, SCHEDULE_SET, UPDATE_SCHEDULE } from './types';
 import axios from 'axios';
 
 export const fetchEvents = () => dispatch => {
-    axios.get('https://4ab5c827.ngrok.io/api/events').then((response) => {
+    axios.get('https://ff58c38a.ngrok.io/api/events').then((response) => {
       dispatch({
         type: SCHEDULE_RETRIEVE,
         payload: {
-          friday: response.data.friday,
-          saturday: response.data.saturday,
-          sunday: response.data.sunday
+          friday: response.data.friday.sort((a,b) => {
+            return new Date(a.dateBegin).getTime() - new Date(b.dateBegin).getTime()
+          }),
+          saturday: response.data.saturday.sort((a,b) => {
+            return new Date(a.dateBegin).getTime() - new Date(b.dateBegin).getTime()
+          }),
+          sunday: response.data.sunday.sort((a,b) => {
+            return new Date(a.dateBegin).getTime() - new Date(b.dateBegin).getTime()
+          }),
         }
       })
     })
 };
 
-export const updateSelectableSchedule = (idUpdate, eventSelected, token) => dispatch => {
-  axios.post('https://4ab5c827.ngrok.io/api/selectableEvent', { token, eventSelected, idUpdate }).then((user) => {
+export const updateSelectableSchedule = (eventSelected, token, idOfClickedBlock) => dispatch => {
+  axios.post('https://ff58c38a.ngrok.io/api/selectableEvent', { token, eventSelected, idOfClickedBlock }).then((user) => {
       dispatch({
         type: UPDATE_SCHEDULE,
-        payload: { token, eventSelected, idUpdate }
+        payload: { token, eventSelected, idOfClickedBlock }
       })
   })
 

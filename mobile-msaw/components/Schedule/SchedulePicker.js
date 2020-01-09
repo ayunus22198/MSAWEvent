@@ -29,6 +29,7 @@ class SchedulePicker extends React.Component {
 
   blockSelect = (index) => {
     let events = this.state.possibleEvents; //copy of state events array
+    console.log('jhjh ', events);
     let clickedEvent = {};
     for(let i = 0; i < events.length; i++) {  //marks event object at index true, everything else false
       if(events[i]._id == index) {
@@ -44,13 +45,7 @@ class SchedulePicker extends React.Component {
   }
 
   submitSelectedEvent = async () => {
-    let prevID = -1;
-    prevID = await AsyncStorage.getItem('previousID');
-    if(prevID == null) {
-      prevID = -1
-    }
-    AsyncStorage.setItem('previousID', this.state.clickedEvent._id );
-    if(prevID == this.state.clickedEvent._id) {
+    if(this.state.clickedEvent.attending.includes(this.props.exponentPhoneID)) {
       Alert.alert(
         'Already in Event!',
         'Click another event',
@@ -61,16 +56,14 @@ class SchedulePicker extends React.Component {
       );
       return;
     }
-    console.log('prev ', prevID);
-    console.log('phone expo ', this.props.exponentPhoneID);
-    this.props.updateSelectableSchedule(prevID, this.state.clickedEvent, this.props.exponentPhoneID);
+    this.props.updateSelectableSchedule(this.state.clickedEvent, this.props.exponentPhoneID, this.state.idOfClickedBlock);
     this.props.navigation.navigate(screens[0], { reload: true });
   }
 
   renderEvents() {
     return this.state.possibleEvents.map((e) => {
         return (
-          <Block key = {e._id} clicked = {e.clicked} e = {e} navigateBack = {true} blockSelect = {() => this.blockSelect(e._id)}/>
+          <Block key = {e._id} idOfAttendee = {this.props.exponentPhoneID} clicked = {e.clicked} e = {e} selectable = {true} navigateBack = {true} navigateFront = {false} blockSelect = {() => this.blockSelect(e._id)}/>
         )
     })
   }

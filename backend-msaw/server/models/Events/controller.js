@@ -14,8 +14,21 @@ exports.getEvents = (req, res) => {
 }
 
 exports.addSelectableEvent = async (req, res) => {
-    const { token, eventSelected, idUpdate } = req.body;
-    console.log(token, eventSelected, idUpdate);
+    const { token, eventSelected, idOfClickedBlock } = req.body;
+    console.log(token, eventSelected, idOfClickedBlock);
+    let selectedSelectableEvent = await Event.findOne({_id:idOfClickedBlock}).populate('events')
+    let idOfBlockClickedPrev = -1;
+    console.log('heeh ', selectedSelectableEvent);
+    for(var k = 0; k < selectedSelectableEvent.events.length; k++) {
+      if(selectedSelectableEvent.events[k].attending.includes(token)) {
+        idOfBlockClickedPrev = selectedSelectableEvent[k]._id;
+        break;
+      }
+    }
+    if(idOfBlockClickedPrev == eventSelected._id) {
+      return res.status(404).json({ 'error':'Already in event' });
+    }
+    console.log(token, eventSelected, idOfClickedBlock);
     Event.findOneAndUpdate(
   		{ _id: eventSelected._id },
   		{ $push: { attending: token } },
@@ -24,11 +37,11 @@ exports.addSelectableEvent = async (req, res) => {
   			if (error) {
   				console.log(error);
   			} else {
-          if(idUpdate == -1) {
-            return res.status(200).json({'err':'err'});
+          if(idOfBlockClickedPrev == -1) {
+            return res.status(200).json({'success': 'Inside event'});
           } else {
             Event.findOneAndUpdate(
-          		{ _id: idUpdate },
+          		{ _id: idOfBlockClickedPrev },
           		{ $pull: { attending: token } },
           		{ new: true, upsert: true },
           		function (error, event) {

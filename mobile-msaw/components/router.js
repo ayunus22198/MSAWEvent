@@ -5,6 +5,7 @@ import Login from './Login/Login';
 import Map from './Map/Map';
 import Sponsors from './Sponsors/Sponsors';
 import SponsorInformation from './Sponsors/SponsorInformation';
+import EventInformation from './Schedule/EventInformation';
 import Friday from './Schedule/Friday';
 import Saturday from './Schedule/Saturday';
 import Sunday from './Schedule/Sunday';
@@ -58,7 +59,8 @@ export const ScheduleNavigator = createMaterialTopTabNavigator(
 export const ScheduleSelectorNavigator = createStackNavigator(
     {
         ScheduleNavigator: ScheduleNavigator ,
-        SchedulePicker: SchedulePicker
+        SchedulePicker: SchedulePicker,
+        EventInformation: EventInformation
     }
 )
 

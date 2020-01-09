@@ -29,15 +29,56 @@ class Friday extends React.Component {
     }
   }
 
-  componentWillReceiveProps() {
-
+  async loadNotifications() {
+    for(let i = 0; i < this.props.events.length; i++) {
+      let date = new Date(this.props.events[i].dateBegin);
+      let year = date.getFullYear();
+      let month = date.getMonth();
+      let datest = date.getDate();
+      let hour = date.getHours();
+      let minutes = date.getMinutes();
+      if(minutes >= this.state.offset) {
+        minutes = minutes - this.state.offset;
+      } else {
+        minutes = minutes + 15;
+        hour = hour - 1;
+      }
+      let not0 = new Date(year, month, datest, hour, minutes);
+      not0 = Date.parse(not0);
+      const schedulingOptions0 = { time: not0 };
+      let localnotification = this.state.localnotification;
+      let text;
+      if(this.props.events[i].selectable) {
+        for(var j = 0; j < this.props.events[i].events.length; j++) {
+          if(this.props.events[i].events[j].attending.includes(this.props.token)) {
+            localnotification.body = this.props.events[i].events[j].speaker + " is speaking at " + this.props.events[i].events[j].destination + ' in 45 min';
+            break;
+          }
+        }
+        if(j == this.props.events[i].events.length) {
+          localnotification.body = 'Events happening in 45 min!';
+        }
+      } else {
+        localnotification.body = this.props.events[i].speaker + " is speaking at " + this.props.events[i].destination + ' in 45 min';
+      }
+      this.setState({localnotification});
+      await Notifications.scheduleLocalNotificationAsync(
+          localnotification,
+          schedulingOptions0
+      );
+      }
   }
 
+  async componentWillMount() {
+    if(this.props.events != null)
+      this.loadNotifications();
+  }
 
 
   _onRefresh = () => {
     this.setState({loading: true});
     this.props.fetchEvents();
+    this.loadNotifications();
     this.setState({loading: false});
   }
 
@@ -52,7 +93,6 @@ class Friday extends React.Component {
   returnIfIncluded = (e) => {
     for(let i = 0; i < e.events.length; i++) {
       if(e.events[i].attending.includes(this.props.token)) {
-        console.log('att ', e.events[i]);
         return i;
       }
     }
@@ -61,10 +101,7 @@ class Friday extends React.Component {
 
 
   render() {
-    let reload = this.props.navigation.getParam('reload');
     let events = this.props.events;
-    let included = this.state.included;
-    console.log('included in ', included);
     return (
       <View style = {styles.container} >
         <Text>Refresh by scrolling down!</Text>
@@ -74,9 +111,9 @@ class Friday extends React.Component {
               return <Block selectable = {false} key = {i}  navigateBack = {false} e = {e}/>
             } else {
               if(this.returnIfIncluded(e) != -1) {
-                return <Block selectable = {true} key = {i}  navigateBack = {true} allEvents = {e.events} e = {e.events[this.returnIfIncluded(e)]}/>
+                return <Block selectable = {true} key = {i}  navigateBack = {false} navigateFront = {true} allEvents = {e.events} e = {e.events[this.returnIfIncluded(e)]}/>
               } else {
-                return <Block selectable = {true} key = {i}  navigateBack = {false} e = {e}/>
+                return <Block selectable = {true} key = {i}  navigateBack = {false} navigateFront = {false} e = {e}/>
               }
             }
           }) : null}

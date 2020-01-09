@@ -1,5 +1,5 @@
 import React from 'react';
-import { StyleSheet, View,Button, Text, AsyncStorage } from 'react-native';
+import { StyleSheet, View,Button, Text, AsyncStorage, Image, TouchableOpacity, Dimensions } from 'react-native';
 import * as Google from 'expo-google-app-auth';
 import { connect } from 'react-redux'
 import axios from 'axios';
@@ -8,6 +8,7 @@ import { USER_LOGIN, SCHEDULE_SET, SCHEDULE_RETRIEVE } from '../../actions/types
 import { fetchEvents, setSchedule } from '../../actions/ScheduleActions';
 import { userLogin } from '../../actions/UserActions';
 import { Notifications } from 'expo';
+const { height, width } = Dimensions.get('window');
 
 class Login extends React.Component {
 
@@ -16,7 +17,6 @@ class Login extends React.Component {
   }
 
   signIn = async () => {
-    console.log(Ids);
     try {
       const result = await Google.logInAsync({
         androidClientId: Ids.default.androidClientId,
@@ -28,15 +28,13 @@ class Login extends React.Component {
         let token = await Notifications.getExpoPushTokenAsync();
         console.log(token);
         const { name, email, id } = result.user;
-        console.log(email);
         // do get request for schedule and set redux state
         this.props.userLogin({email, token})
         this.props.fetchEvents();
         let friday = this.props.friday;
         let saturday = this.props.saturday;
         let sunday = this.props.sunday;
-        this.props.setSchedule({ friday, saturday, sunday })
-        console.log(email, token);
+        this.props.setSchedule({ friday, saturday, sunday });
         this.props.navigation.navigate('MSAWNavigation');
       } else {
         console.log("cancelled")
@@ -48,12 +46,22 @@ class Login extends React.Component {
 
   render() {
     return (
-      <View style = { styles.loginButtonSection }>
-        <Button onPress={() => this.signIn()}
-               style={styles.loginButton}
-               title="Login"
-       />
-       <Button onPress={this.clearAsyncStorage} title = "Clear Async Storage"></Button>
+      <View style = {styles.container}>
+        <View style = {styles.logoContainer}>
+          <Image style = {styles.logo} source = {require('../../MSAimages/CAIR.jpg')} />
+          <Text style = {styles.title}>MSA West Annual Conference 2020</Text>
+          <View style = {{marginTop: 10}} >
+            <Text style = {styles.caption}>Turn to your lord</Text>
+            <Text>Becoming God Conscious in an Unconscious Society</Text>
+          </View>
+        </View>
+        <View style = {styles.formContainer}>
+          <View style = {{padding: 20}}>
+            <TouchableOpacity onPress = {() => this.signIn()} style = {styles.buttonContainer}>
+              <Text style = {styles.buttonText}>Login</Text>
+            </TouchableOpacity>
+          </View>
+        </View>
       </View>
     )
   }
@@ -72,22 +80,45 @@ const mapStateToProps = state => {
 export default connect(mapStateToProps, { fetchEvents, setSchedule, userLogin })(Login);
 
 const styles = StyleSheet.create({
-   loginTextSection: {
-      width: '100%',
-      height: '30%',
+   container: {
+     flex: 1,
+     backgroundColor: '#2A3841'
    },
-   loginButtonSection: {
-      width: '100%',
-      height: '30%',
-      justifyContent: 'center',
-      alignItems: 'center'
+   logoContainer: {
+     alignItems: 'center',
+     flexGrow: 1,
+     marginTop: 25
    },
-   inputText: {
-      marginLeft: '20%',
-      width: '60%'
+   logo: {
+     width: 150,
+     height: 150
    },
-   loginButton: {
-     backgroundColor: 'blue',
-     color: 'white'
+   title: {
+     color: '#fff',
+     marginTop: 10,
+     textAlign: 'center',
+     opacity: 0.9,
+     fontSize: 25,
+     fontFamily: 'montserratBold'
+   },
+   caption: {
+     color: '#fff',
+     textAlign: 'center',
+     opacity: 0.9,
+     fontSize: 20,
+     fontFamily: 'montserratBold'
+   },
+   formContainer: {
+     padding: 20
+   },
+   buttonContainer: {
+     backgroundColor: '#2980b9',
+     paddingVertical: 10
+   },
+   buttonText: {
+     textAlign: 'center',
+     color: '#FFFFFF',
+     fontWeight: '700'
    }
+
 });

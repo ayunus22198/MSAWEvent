@@ -1,9 +1,11 @@
 import React from 'react';
-import { StyleSheet, View, ScrollView, RefreshControl } from 'react-native';
+import { StyleSheet, View, ScrollView, RefreshControl, Text } from 'react-native';
 import Block from '../Utils/Block'
 import axios from 'axios';
-import { Notifications } from 'expo';
-import { connect } from 'react-redux'
+import { Notifications, AppLoading } from 'expo';
+import { connect } from 'react-redux';
+import { fetchEvents } from '../../actions/ScheduleActions';
+var moment = require('moment-timezone');
 
 class Sunday extends React.Component {
   constructor(props) {
@@ -21,74 +23,100 @@ class Sunday extends React.Component {
       },
       events: [],
       offset: 45,
+      included: -1,
       switchStatus: false,
       otherSwitchStatus: false
     }
   }
 
-  _retrieveData = async () => {
-    try {
-      const switchStatus = await AsyncStorage.getItem('switchStatus');
-      const otherSwitchStatus = await AsyncStorage.getItem('otherSwitchStatus');
-
-      // set the state
-      //main switcher state
-      if (switchStatus !== null) {
-        this.setState({ switchStatus: JSON.parse(switchStatus) });
-      } else if (switchStatus == null) {
-        this.setState({ switchStatus: true });
+  async loadNotifications() {
+    for(let i = 0; i < this.props.events.length; i++) {
+      let date = new Date(this.props.events[i].dateBegin);
+      let year = date.getFullYear();
+      let month = date.getMonth();
+      let datest = date.getDate();
+      let hour = date.getHours();
+      let minutes = date.getMinutes();
+      if(minutes >= this.state.offset) {
+        minutes = minutes - this.state.offset;
+      } else {
+        minutes = minutes + 15;
+        hour = hour - 1;
       }
-
-      // other switchers state
-      if (otherSwitchStatus !== null) {
-        this.setState({ otherSwitchStatus: JSON.parse(otherSwitchStatus) });
+      let not0 = new Date(year, month, datest, hour, minutes);
+      not0 = Date.parse(not0);
+      const schedulingOptions0 = { time: not0 };
+      let localnotification = this.state.localnotification;
+      let text;
+      if(this.props.events[i].selectable) {
+        for(var j = 0; j < this.props.events[i].events.length; j++) {
+          if(this.props.events[i].events[j].attending.includes(this.props.token)) {
+            localnotification.body = this.props.events[i].events[j].speaker + " is speaking at " + this.props.events[i].events[j].destination + ' in 45 min';
+            break;
+          }
+        }
+        if(j == this.props.events[i].events.length) {
+          localnotification.body = 'Events happening in 45 min!';
+        }
+      } else {
+        localnotification.body = this.props.events[i].speaker + " is speaking at " + this.props.events[i].destination + ' in 45 min';
       }
-    } catch (error) {
-      console.log(error.message);
-    }
-  };
+      this.setState({localnotification});
+      await Notifications.scheduleLocalNotificationAsync(
+          localnotification,
+          schedulingOptions0
+      );
+      }
+  }
 
-   async componentWillMount() {
-  //   this._retrieveData();
-  //   const response = await axios.get('http://bcc28b41.ngrok.io/api/events');
-  //
-  //   console.log(response.data.events);
-  //   for(let i = 0; i < response.data.events.length; i++) {
-  //     let date = new Date(response.data.events[i].dateBegin);
-  //     let year = date.getFullYear();
-  //     let month = date.getMonth();
-  //     let datest = date.getDate();
-  //     let hour = date.getHours();
-  //     let minutes = date.getMinutes();
-  //     let not0 = new Date(year, month, datest, hour, minutes);
-  //     not0.setMinutes(not0.getMinutes() - this.state.offset);
-  //     not0 = Date.parse(not0);
-  //     const schedulingOptions0 = { time: not0 };
-  //     let localnotification = this.state.localnotification;
-  //     localnotification.body = response.data.events[i].speaker + " is speaking at " + response.data.events[i].destination;
-  //     this.setState({localnotification});
-  //     console.log(localnotification);
-  //     console.log(not0);
-  //     await Notifications.scheduleLocalNotificationAsync(
-  //         localnotification,
-  //         schedulingOptions0
-  //     );
-  //   }
-  //   this.setState({events: response.data.events});
+  async componentWillMount() {
+    if(this.props.events != null)
+      this.loadNotifications();
+  }
+
+
+  _onRefresh = () => {
+    this.setState({loading: true});
+    this.props.fetchEvents();
+    this.loadNotifications();
+    this.setState({loading: false});
   }
 
   renderBlocks() {
     if(this.props.events) {
-      return this.props.events.map((e, index) => (
-        <Block selectable = {false} key = {index} navigateBack = {false} e = {e}/>
-      ))}
+        return this.props.events.map((e, index) => (
+          <Block selectable = {(e.selectable) ? false: true} key = {index}  navigateBack = {false} e = {e}/>
+        ))
+      }
     }
 
+  returnIfIncluded = (e) => {
+    for(let i = 0; i < e.events.length; i++) {
+      if(e.events[i].attending.includes(this.props.token)) {
+        return i;
+      }
+    }
+    return -1;
+  }
+
+
   render() {
+    let events = this.props.events;
     return (
       <View style = {styles.container} >
-        <ScrollView horizontal={false} refreshControl={<RefreshControl refreshing={this.state.loading} onRefresh={this._onRefresh}/>}>
-          {this.renderBlocks()}
+        <Text>Refresh by scrolling down!</Text>
+        <ScrollView horizontal={false} refreshControl={ <RefreshControl refreshing={this.state.loading} onRefresh={this._onRefresh} /> }>
+          {(events != null) ? events.map((e, i) => {
+            if(!e.selectable) {
+              return <Block selectable = {false} key = {i}  navigateBack = {false} e = {e}/>
+            } else {
+              if(this.returnIfIncluded(e) != -1) {
+                return <Block selectable = {true} key = {i}  navigateBack = {true} allEvents = {e.events} e = {e.events[this.returnIfIncluded(e)]}/>
+              } else {
+                return <Block selectable = {true} key = {i}  navigateBack = {false} e = {e}/>
+              }
+            }
+          }) : null}
         </ScrollView>
       </View>
     )
@@ -102,7 +130,7 @@ const mapStateToProps = (state) => {
   // return whatever state you need from friday -- can deconstruct object here
   // and return events, any user-specific data, etc.
 
-  return { events: state.schedule.sunday, loading: false }
+  return { events: state.schedule.sunday, token: state.user.user.token, loading: false }
 }
 
 const mapDispatchToProps = (dispatch) => {
@@ -110,11 +138,11 @@ const mapDispatchToProps = (dispatch) => {
   // a dispatch function to update user-selected event with whatever metadata
 
   return {
-
+    fetchEvents: fetchEvents
   }
 }
 
-export default connect(mapStateToProps, mapDispatchToProps)(Sunday);
+export default connect(mapStateToProps, { fetchEvents })(Sunday);
 
 const styles = StyleSheet.create({
   container: {
