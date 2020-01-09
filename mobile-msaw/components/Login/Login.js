@@ -48,7 +48,7 @@ class Login extends React.Component {
     return (
       <View style = {styles.container}>
         <View style = {styles.logoContainer}>
-          <Image style = {styles.logo} source = {require('../../MSAimages/CAIR.jpg')} />
+          <Image style = {styles.logo} source = {require('../../MSAimages/logo_clear.png')} />
           <Text style = {styles.title}>MSA West Annual Conference 2020</Text>
           <View style = {{marginTop: 10}} >
             <Text style = {styles.caption}>Turn to your lord</Text>
@@ -82,7 +82,6 @@ export default connect(mapStateToProps, { fetchEvents, setSchedule, userLogin })
 const styles = StyleSheet.create({
    container: {
      flex: 1,
-     backgroundColor: '#2A3841'
    },
    logoContainer: {
      alignItems: 'center',
