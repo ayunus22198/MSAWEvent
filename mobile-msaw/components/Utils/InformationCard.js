@@ -8,7 +8,6 @@ import { withNavigation } from 'react-navigation';
 const {height, width} = Dimensions.get('window');
 
 const returnTimes = (e) => {
-  console.log('hiii ', e);
   let timestampBegin = e.dateBegin;
   let timestampEnd = e.dateEnd;
   let hoursBegin = new Date(timestampBegin).getUTCHours().toString();
@@ -36,13 +35,14 @@ const returnTimes = (e) => {
 }
 
 const InformationCard = (props) => {
+    console.log('ff ', props);
     return (
         <View style={styles.container}>
-          <Text>Title: </Text>
-          <Text>Speaker: </Text>
-          <Text>Time: </Text>
-          <Text>Room: </Text>
-          <Text>Description: </Text>
+          <Text style = {{fontFamily: 'montserratMed'}}>Title: {props.information.title}</Text>
+          <Text style = {{fontFamily: 'montserratMed'}}>Speaker: {props.information.speaker}</Text>
+          <Text style = {{fontFamily: 'montserratMed'}}>Time: {returnTimes(props.information)}</Text>
+          <Text style = {{fontFamily: 'montserratMed'}}>Location: {props.information.destination}</Text>
+          <Text style = {{fontFamily: 'montserratMed'}}>Description: {props.information.summary}</Text>
         </View>
     );
 }
@@ -53,9 +53,9 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
     backgroundColor: '#ecf0f1',
     padding: 10,
+    borderColor: '#00AEF9',
+    borderWidth: 1,
     borderRadius: 25,
-    borderColor: 'red',
-    borderWidth: 5,
     width: width - 15,
     marginTop: 10,
 

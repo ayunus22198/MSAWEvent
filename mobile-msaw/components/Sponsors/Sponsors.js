@@ -10,19 +10,43 @@ export default class Sponsors extends React.Component {
     this.state = {
       items: [{
         id: 1,
-        src: require('../../MSAimages/penny-appeal.jpg')
+        src: require('../../MSAimages/penny_appeal.png')
       },{
         id: 2,
         src: require('../../MSAimages/CAIR.jpg')
-      }, {
-        id: 3,
-        src: require('../../MSAimages/IslamicRelief.png')
       }, {
         id: 4,
         src: require('../../MSAimages/MPower.png')
       }, {
         id: 5,
         src: require('../../MSAimages/tarbiyya.png')
+      }, {
+        id: 6,
+        src: require('../../MSAimages/msa_national.jpg')
+      }, {
+        id: 7,
+        src: require('../../MSAimages/hidaya.jpg')
+      }, {
+        id: 8,
+        src: require('../../MSAimages/life.jpg')
+      }, {
+        id: 9,
+        src: require('../../MSAimages/iok.png')
+      }, {
+        id: 12,
+        src: require('../../MSAimages/UmmahClinic.jpg')
+      }, {
+        id: 13,
+        src: require('../../MSAimages/FYI.png')
+      },  {
+        id: 15,
+        src: require('../../MSAimages/AMP.png')
+      }, {
+        id: 17,
+        src: require('../../MSAimages/oneHalalStop.jpg')
+      }, {
+        id:18,
+        src: require('../../MSAimages/Islamic_Scholarship_Foundation.png')
       }]
     };
   }
@@ -50,7 +74,7 @@ export default class Sponsors extends React.Component {
     return(
       <TouchableOpacity
        key = { item.id }
-       style = {{ width: width/2, height: width/2, paddingHorizontal: itemPaddingHorizontal }}
+       style = {{ width: width/2 , height: width/2, paddingHorizontal: itemPaddingHorizontal }}
        onPress = { () => this.props.navigation.navigate('SponsorInformation', { _id: item.id }) }>
        <Image
          resizeMode = "cover"

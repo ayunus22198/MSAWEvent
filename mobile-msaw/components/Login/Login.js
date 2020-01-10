@@ -17,31 +17,12 @@ class Login extends React.Component {
   }
 
   signIn = async () => {
-    try {
-      const result = await Google.logInAsync({
-        androidClientId: Ids.default.androidClientId,
-        iosClientId: Ids.default.iosClientId,
-        scopes: ["email"]
-      })
-
-      if (result.type === "success") {
-        let token = await Notifications.getExpoPushTokenAsync();
-        console.log(token);
-        const { name, email, id } = result.user;
-        // do get request for schedule and set redux state
-        this.props.userLogin({email, token})
         this.props.fetchEvents();
         let friday = this.props.friday;
         let saturday = this.props.saturday;
         let sunday = this.props.sunday;
         this.props.setSchedule({ friday, saturday, sunday });
         this.props.navigation.navigate('MSAWNavigation');
-      } else {
-        console.log("cancelled")
-      }
-    } catch (e) {
-      console.log("error", e)
-    }
   }
 
   render() {
@@ -68,7 +49,6 @@ class Login extends React.Component {
 }
 
 const mapStateToProps = state => {
-  console.log('sss', state);
   return {
     friday: state.schedule.friday,
     saturday: state.schedule.saturday,

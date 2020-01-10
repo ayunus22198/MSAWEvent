@@ -23,7 +23,6 @@ export default class EventInformation extends React.Component {
       <View style = {styles.container} >
         <ScrollView horizontal = {false}>
           <InformationCard information = {this.state.information}/>
-          <QuestionCard questions = {this.state.information}/>
         </ScrollView>
       </View>
     )

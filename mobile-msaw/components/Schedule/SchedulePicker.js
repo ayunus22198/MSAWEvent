@@ -83,8 +83,7 @@ class SchedulePicker extends React.Component {
 }
 
 const mapStateToProps = (state) => {
-  console.log('sp ', state);
-  return { exponentPhoneID: state.user.user.token }
+  return { exponentPhoneID: 0 }
 }
 
 export default connect(mapStateToProps, { updateSelectableSchedule })(SchedulePicker);

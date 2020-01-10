@@ -5,7 +5,8 @@ import axios from 'axios';
 import { Notifications, AppLoading } from 'expo';
 import { connect } from 'react-redux';
 import { fetchEvents } from '../../actions/ScheduleActions';
-var moment = require('moment-timezone');
+import CarouselView from '../Utils/Carousel';
+
 
 class Saturday extends React.Component {
   constructor(props) {
@@ -31,6 +32,9 @@ class Saturday extends React.Component {
 
   async loadNotifications() {
     for(let i = 0; i < this.props.events.length; i++) {
+      if(i == 0) {
+        continue;
+      }
       let date = new Date(this.props.events[i].dateBegin);
       let year = date.getFullYear();
       let month = date.getMonth();
@@ -49,15 +53,7 @@ class Saturday extends React.Component {
       let localnotification = this.state.localnotification;
       let text;
       if(this.props.events[i].selectable) {
-        for(var j = 0; j < this.props.events[i].events.length; j++) {
-          if(this.props.events[i].events[j].attending.includes(this.props.token)) {
-            localnotification.body = this.props.events[i].events[j].speaker + " is speaking at " + this.props.events[i].events[j].destination + ' in 45 min';
-            break;
-          }
-        }
-        if(j == this.props.events[i].events.length) {
-          localnotification.body = 'Events happening in 45 min!';
-        }
+        localnotification.body = 'Events happening in 45 min!';
       } else {
         localnotification.body = this.props.events[i].speaker + " is speaking at " + this.props.events[i].destination + ' in 45 min';
       }
@@ -91,11 +87,6 @@ class Saturday extends React.Component {
     }
 
   returnIfIncluded = (e) => {
-    for(let i = 0; i < e.events.length; i++) {
-      if(e.events[i].attending.includes(this.props.token)) {
-        return i;
-      }
-    }
     return -1;
   }
 
@@ -107,6 +98,9 @@ class Saturday extends React.Component {
         <Text>Refresh by scrolling down!</Text>
         <ScrollView horizontal={false} refreshControl={ <RefreshControl refreshing={this.state.loading} onRefresh={this._onRefresh} /> }>
           {(events != null) ? events.map((e, i) => {
+            if(i == 0) {
+              return <CarouselView />
+            }
             if(!e.selectable) {
               return <Block selectable = {false} key = {i}  navigateBack = {false} e = {e}/>
             } else {
@@ -130,7 +124,7 @@ const mapStateToProps = (state) => {
   // return whatever state you need from friday -- can deconstruct object here
   // and return events, any user-specific data, etc.
 
-  return { events: state.schedule.saturday, token: state.user.user.token, loading: false }
+  return { events: state.schedule.saturday,  loading: false }
 }
 
 const mapDispatchToProps = (dispatch) => {

@@ -9,7 +9,6 @@ import { withNavigation } from 'react-navigation';
 import getDirections from 'react-native-google-maps-directions'
 
 const returnTimes = (e) => {
-  console.log('hiii ', e);
   let timestampBegin = e.dateBegin;
   let timestampEnd = e.dateEnd;
   let hoursBegin = new Date(timestampBegin).getUTCHours().toString();
@@ -50,7 +49,7 @@ const Block = (props) => {
         <View style = {{ flex: 1, alignItems: 'center', justifyContent: 'center', textAlign: 'center', textAlignVertical: "center" }}>
           <TouchableOpacity onPress = {() => { props.navigation.navigate('SchedulePicker', { screenId: 0, idOfClickedBlock: props.e._id, possibleEvents: props.e.events }) }}>
             <Text style = {{alignItems: 'center', justifyContent: 'center', textAlignVertical: "center", textDecorationLine: 'underline', fontFamily: 'montserratMed', textAlign: 'center'}}>
-              Choose from a selectable list of events. Click this text to see.
+              WORKSHOPS — {returnTimes(props.e)}
             </Text>
           </TouchableOpacity>
         </View>
@@ -125,10 +124,7 @@ const Block = (props) => {
            </TouchableOpacity>
          </View>
          <View style={{flex: 1, justifyContent: 'center', alignItems: 'center' }}>
-         <Image
-           style={{ width: 54, height: 54, borderColor: 'blue', borderWidth: 1, borderRadius: 27 }}
-           source={{uri: 'https://facebook.github.io/react/logo-og.png'}}
-         />
+
          </View>
        </View>
        <View style = {{ flex: 1, flexDirection: 'row', backgroundColor: '#d3d3d3', borderBottomRightRadius: Theme.borderRadius, borderBottomLeftRadius: Theme.borderRadius }}>
@@ -153,7 +149,7 @@ const Block = (props) => {
 const styles = StyleSheet.create({
  container: {
    borderRadius: Theme.borderRadius,
-   width: width-15,
+   width: width,
    borderColor: '#00AEF9',
    borderWidth: 1,
    flexDirection: 'column',
