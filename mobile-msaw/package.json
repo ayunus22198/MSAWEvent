@@ -27,7 +27,7 @@
     "react-native-google-maps-directions": "^2.1.1",
     "react-native-image-grid": "^1.0.0",
     "react-native-maps": "^0.26.1",
-    "react-native-reanimated": "^1.1.0",
+    "react-native-reanimated": "^2.10.0",
     "react-native-vector-icons": "^6.6.0",
     "react-native-web": "^0.11.4",
     "react-navigation": "^4.0.6",
